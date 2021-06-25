@@ -1,0 +1,92 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+<div id="root" class="w-full flex flex-col justify-center items-center"></div>
+
+<template id="loading">
+    <div class="max-w-lg flex flex-col m-8">
+        <div>
+            <img class="w-16 inline-block"
+                src="https://mblogthumb-phinf.pstatic.net/MjAxODEwMjNfNjAg/MDAxNTQwMjg2OTk2NTcw.mfWKPtzKVO1mJaBBIFKIkVBlMQQIF1Vc-yrlbbGaoP0g.KNJWAgMmhsfQrZI3n0UT-LMi_qpHAZls4qPMvbNaJBcg.GIF.chingguhl/Spinner-1s-200px.gif?type=w800">
+            <span id="notify">四柱命理MBTI學 및 人工知能 을 기초로하여 分析중입니다.</span>
+
+            <img class="w-full" src="https://opgg-com-image.akamaized.net/attach/images/20200129135900.1084607.jpg">
+        </div>
+    </div>
+</template>
+
+<template id="result">
+    <div class="max-w-lg flex flex-col justify-center items-center">
+        <div>
+            <img id="img" class="py-8 w-full">
+            <span id="title" class="font-bold text-3xl"></span>
+            <p id="desc" class="my-8"></p>
+        </div>
+        <a href="delivery.html">
+            <img class="w-32 m-auto mt-8 mb-16 cursor-pointer" src="deli.png">
+        </a>
+        <a href="index.html">
+            <img class="w-32 m-auto mt-8 mb-16 cursor-pointer" src="dora.png">
+        </a>
+    </div>
+</template>
+
+<script>
+    document.querySelector('#root').innerHTML = '';
+
+    const t = document.importNode(document.querySelector('#loading').content, true);
+    document.querySelector('#root').appendChild(t);
+
+    setTimeout(() => {
+        document.querySelector('#notify').textContent = '데이타 분석이 완료되었습니다.';
+        document.querySelector('#notify').style.fontWeight = 'bold';
+    }, 3000);
+
+    const products = [
+        ['https://image.idus.com/image/files/1403a8ebf8854b479212ac0d95c93e41_512.jpg', '궁금냥이 머그컵', '특히 동물과 예쁜 잔을 중요시하는 당신에게 알맞는 선물입니다. 이 유형의 사람들은 타인보다는 예술적 감각이 발달한 편으로, 현실적 감각도 남들보다 뛰어납니다. 타인의 감정에 깊이 공감하고 민감하며, 소중한 사람들과 시간을 보내는 것을 좋아합니다. 노란색을 좋아하는 당신에게는 귀엽고 작은 고양이들이 찾아갈 것입니다.'],
+        ['https://cdn.withgoods.net/goods/images/bqIVFp0P_.png?d=500x500&q=full', '달밤숲 여우 한마리', '특히 동물과 예쁜 잔을 중요시하는 당신에게 알맞는 선물입니다. 이 유형의 사람들은 타인보다는 예술적 감각이 발달한 편으로, 현실적 감각도 남들보다 뛰어납니다. 타인의 감정에 깊이 공감하고 민감하며, 소중한 사람들과 시간을 보내는 것을 좋아합니다. 화창한 여름날 깜찍한 여우가 당신의 곁을 시원하게 지켜줄 것입니다.'],
+        ['https://img1.daumcdn.net/thumb/C600x600.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20210524153920_c0d1be23ede14f6a94780163c0ad7471.jpg', '과일 모찌이야기', '이 유형의 사람들은 감각이 예민하고 부드럽습니다. 또한 자연을 좋아하는 편이고, 까다롭고 섬세한 마음을 가졌습니다. 자신에게 소중한 사람들을 잘 알아보지 못하지만 열심히 지키려고 노력합니다. 부드럽고 쫀득한 과일 모찌가 그런 당신에게 어울리는 선물입니다.'],
+        ['https://thebreadblue.com/web/product/medium/202106/f02a23226904519e66740f21bc26f39e.jpg', '생크림 케이크', '이 유형의 사람들은 감각이 예민하고 부드럽습니다. 또한 자연을 좋아하는 편이고, 까다롭고 섬세한 마음을 가졌습니다. 아름다움을 잘 이해하고 있는 당신에게는, 부드러운 생크림이 살포시 올라가 있는 생크림 케이크가 당신의 마음에 쏙 들 것입니다.'],
+        ['https://thebreadblue.com/web/product/medium/202106/a1dc7ff35d4b168857b29cdf16822d27.jpg', '초코 케이크', '로맨틱하며 이성적인 편인 당신은 타인의 표정을 잘 읽고 분위기를 잘 살려냅니다. 쉽게 지루함을 느껴 자극적인 것을 좋아하고, 집착을 느끼려 하지 않습니다. 자신이 좋아하는 것에 대해서는 엄격한 당신에게 어울리는 선물은 초코 케이크입니다.'],
+        ['https://img1.daumcdn.net/thumb/C600x600.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20201204130350_6967432e5fce48f6b90cb889cc505129.jpg', '아이엠더문', '로맨틱하며 이성적인 편인 당신은 타인의 표정을 잘 읽고 분위기를 잘 살려냅니다. 술을 좋아하지만 동시에 예술적인 면도 있어 달콤하고 아름다운 술에 관심이 많습니다. 감각이 예리하지만 강인한 당신은 상처를 받은 후 타협하여 아물게 하곤 합니다. 색이 예쁘고 부드러운 전통주 리큐르 아이엠더문이 당신에게 어울리는 선물입니다.'],
+    ];
+    const matrix = [
+        [2, 1, 4, 0, 1, 0, 1, 2, 0, 1, 0, 0, 2],
+        [1, 0, 3, 1, 2, 0, 1, 3, 0, 2, 2, 0, 3],
+        [1, 0, 1, 2, 0, 1, 3, 2, 0, 0, 0, 0, 1],
+        [1, 3, 2, 2, 0, 3, 0, 1, 2, 2, 2, 0, 3],
+        [1, 1, 2, 2, 4, 0, 0, 1, 2, 0, 0, 3, 0],
+        [2, 0, 2, 1, 1, 0, 3, 1, 2, 1, 3, 0, 2],
+    ];
+    const tieBreaker = [0.03, 0.04, 0.02, 0.01, 0.05, 0.06];
+
+    function multiply(a, b) {
+        const aNumRows = a.length, aNumCols = a[0].length,
+            bNumRows = b.length, bNumCols = b[0].length,
+            m = new Array(aNumRows);  // initialize array of rows
+        for (let r = 0; r < aNumRows; ++r) {
+            m[r] = new Array(bNumCols); // initialize the current row
+            for (let c = 0; c < bNumCols; ++c) {
+                m[r][c] = 0;             // initialize the current cell
+                for (let i = 0; i < aNumCols; ++i) {
+                    m[r][c] += a[r][i] * b[i][c];
+                }
+            }
+        }
+        return m;
+    }
+    const column = Array.from(location.hash.split(":")[1]).map(x => [parseInt(x)]);
+    const results = multiply(matrix, column).map(([x], i) => x + tieBreaker[i]);
+    const max = Math.max(...results);
+    const argmax = results.findIndex(x => x === max);
+
+    setTimeout(() => {
+        document.querySelector('#root').innerHTML = '';
+
+        const t = document.importNode(document.querySelector('#result').content, true);
+        document.querySelector('#root').appendChild(t);
+
+        document.querySelector('#img').src = products[argmax][0];
+        document.querySelector('#title').textContent = products[argmax][1];
+        document.querySelector('#desc').textContent = products[argmax][2];
+    }, 4800);
+</script>

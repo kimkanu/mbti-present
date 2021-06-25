@@ -1,0 +1,102 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<style>
+    button {
+        padding: 4px 8px;
+        border-radius: 6px;
+    }
+</style>
+
+<div id="root" class="w-full flex flex-col justify-center items-center"></div>
+
+<template id="saju">
+    <div class="max-w-lg flex flex-col justify-center items-center">
+        <div>
+            <p class="w-full py-8 text-center">
+                <span><img class="inline-block mx-4" src="https://www.unsin.co.kr/2019unsin/images/free.gif"></span>
+                <span class="font-bold text-xl align-middle">태어난 시각 입력</span>
+            </p>
+            <p class="w-full pb-8 text-center">
+                <input class="w-64" type="range" name="hour" min="0" max="23" value="12" id="hour">
+                <span id="hour-span">12시</span>
+            </p>
+            <img id="next" class="w-32 m-auto cursor-pointer" src="daum.png">
+            <img id="mola" class="w-32 m-auto cursor-pointer" src="mola.png">
+        </div>
+    </div>
+</template>
+
+<template id="mbti">
+    <div class="max-w-lg flex flex-col justify-center items-center">
+        <div>
+            <p class="w-full py-8 text-center">
+                <span><img class="inline-block mx-4" src="https://www.unsin.co.kr/2019unsin/images/free.gif"></span>
+                <span class="font-bold text-xl align-middle">아래 질문에 답해주세요</span>
+            </p>
+            <p class="w-full pb-8 text-center" id="question">
+                나는 갑자기 떠나는 여행보다 충분히 계획된 여행이 낫다.
+            </p>
+            <p class="w-full pb-8 text-center" id="answer">
+                <button name="0" class="bg-red-500 hover:bg-red-700 text-white font-bold">절대 아니다</button>
+                <button name="1" class="bg-yellow-500 hover:bg-yellow-700 text-white">아니다</button>
+                <button name="2" class="bg-green-500 hover:bg-green-700 text-white">그렇다</button>
+                <button name="3" class="bg-blue-500 hover:bg-blue-700 text-white font-bold">매우 그렇다</button>
+            </p>
+        </div>
+    </div>
+</template>
+
+<script>
+    window.onhashchange = update;
+
+    function update() {
+        const hash = window.location.hash.trim();
+
+        document.querySelector('#root').innerHTML = '';
+
+        if (hash.length === 0) {
+            const t = document.importNode(document.querySelector('#saju').content, true);
+            document.querySelector('#root').appendChild(t);
+
+            document.querySelector('input').addEventListener("input", (e) => {
+                document.querySelector('#hour-span').innerText = `${e.target.value}시`;
+            });
+            document.querySelector('#next').addEventListener("click", () => {
+                location.hash = `${location.hash}${document.querySelector('input').value}:`;
+            });
+            document.querySelector('#mola').addEventListener("click", () => {
+                location.hash = `${location.hash}:`;
+            });
+        } else {
+            const t = document.importNode(document.querySelector('#mbti').content, true);
+            document.querySelector('#root').appendChild(t);
+            const questions = [
+                '봄 하면 노란색 꽃밭이 떠오른다.',
+                '감정이 없는 이세계에서 이성만으로 착실히 살아갈 수 있다.',
+                '주류나 음료를 마실 때에 예쁜 잔은 중요하다.',
+                '나는 갑자기 떠나는 여행보다 충분히 계획된 여행이 낫다.',
+                '생크림 케이크와 초코 케이크 중 하나를 고르자면 당연히 초코 케이크이다.',
+                '귀멸의 칼날',
+                '나는 가끔 식물성 인간이라고 생각한다.',
+                '동물 모찌 인형보다 동물이나 모찌가 낫다.',
+                '만들기 유튜버가 되고 싶다는 생각을 한 적이 있다.',
+                '진심이 담긴 선물보다는 돈이 담긴 선물이 좋다.',
+                '전통문화를 지키는 것은 중요하지만, 그것보다는 전통주가 마셔보고 싶다.',
+                '아이스초코보다 핫초코가 당길 때가 있다.',
+                '별과 별사탕 중 하나를 가질 수 있다면 별을 택할 것이다.',
+            ];
+
+            document.querySelector('#question').textContent = questions[hash.split(':')[1].length];
+
+            document.querySelectorAll('#answer button').forEach(button => button.addEventListener("click", (e) => {
+                const hash = `${location.hash}${e.target.name}`;
+                if (hash.split(':')[1].length >= questions.length) {
+                    location.href = `result.html${hash}`;
+                } else {
+                    location.hash = hash;
+                }
+            }));
+        }
+    }
+
+    update();
+</script>

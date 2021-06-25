@@ -1,0 +1,26 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="w-full flex justify-center">
+    <div class="max-w-lg flex flex-col m-8">
+        <input id="addr" type="text" class="w-64 border-2 bg-gray-50 rounded-lg p-2 mb-4" placeholder="주소지 입력">
+        <input id="submit" type="submit" class="m-auto w-32 bg-blue-500 cursor-pointer text-white rounded-lg p-1 mb-4"
+            value="제출">
+    </div>
+</div>
+
+<script>
+    document.querySelector("#submit").addEventListener("click", () => {
+        const addr = document.querySelector("#addr").value;
+        if (addr.length > 5) {
+            fetch('https://api.npoint.io/73ca8b4c3b5c0f5d8c95', {
+                method: "POST", body: JSON.stringify({
+                    addr
+                })
+            }).then(x => x.json()).then(() => {
+                alert("정상적으로 처리되었습니다.");
+            })
+        } else {
+            alert("주소가 입력되지 않았습니다.");
+        }
+    });
+</script>
